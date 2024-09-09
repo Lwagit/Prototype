@@ -1,0 +1,210 @@
+﻿@{
+    ViewData["Title"] = "Claim Status";
+}
+<h1>@ViewData["Title"]</h1>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Status</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #004d00; /* Dark green background color */
+            color: white; /* Text color changed to white for better contrast */
+        }
+
+        .form-control, .btn {
+            background-color: #e6e6e6; /* Light background color for form controls */
+            color: #000; /* Black text color for form controls */
+        }
+
+        .btn-primary {
+            background-color: #007700; /* Darker green for submit button */
+            border-color: #007700;
+        }
+
+            .btn-primary:hover {
+                background-color: #005500; /* Even darker green on hover */
+                border-color: #005500;
+            }
+
+        footer {
+            position: center;
+            height: 0%;
+            bottom: 0;
+            width: 100%;
+            background-color: #004d00;
+            text-align: center;
+            padding: 10px;
+            border-top: 1px solid #e9ecef;
+            color: #004d00; /* Dark green text color in the footer */
+        }
+
+        /* CSS for table and table content */
+        table {
+            color: white; /* Set font color to white for the entire table */
+        }
+
+        thead th {
+            background-color: #005500; /* Dark green background for table header */
+            color: white; /* White text color for table header */
+        }
+
+        tbody td {
+            background-color: #003300; /* Even darker green for table rows */
+        }
+
+        tbody td, tbody th {
+            color: white; /* White text color for table rows and cells */
+        }
+
+        .btn-success, .btn-danger {
+            color: #000; /* Dark text color for buttons by default */
+            border: none; /* Remove default border */
+        }
+
+        .btn-success {
+            background-color: #28a745; /* Default green background for APPROVE button */
+        }
+
+        .btn-danger {
+            background-color: #dc3545; /* Default red background for REJECT button */
+        }
+
+            .btn-success:hover, .btn-danger:hover {
+                color: white; /* White text color on hover */
+            }
+
+        .btn-success:hover {
+            background-color: #218838; /* Darker green for APPROVE button on hover */
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333; /* Darker red for REJECT button on hover */
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Number of hours:</th>
+                    <th>Programme:</th>
+                    <th>Module Code:</th>
+                    <th>Groups:</th>
+                    <th>Hourly Rate:</th>
+                    <th>TOTAL AMOUNT:</th>
+                    <th>Action:</th>
+                    <th>Claim Status:</th>
+                </tr>
+            </thead>
+            <tbody id="claimsTableBody">
+                <!-- Populated rows will appear here -->
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>Footer Content</p>
+    </footer>
+
+    <script>
+        function loadClaims() {
+            const claimsTableBody = document.getElementById('claimsTableBody');
+            claimsTableBody.innerHTML = ''; // Clear the table body before populating it
+
+            let claims = JSON.parse(localStorage.getItem('claims')) || [];
+
+            claims.forEach((claim, index) => {
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                            <td>${claim.hours}</td>
+                            <td>${claim.programme}</td>
+                            <td>${claim.moduleCode}</td>
+                            <td>${claim.groups}</td>
+                            <td>${claim.hourlyRate}</td>
+                            <td>${claim.totalAmount}</td>
+                            <td>
+                                <a href="#" class="edit-link" data-index="${index}">Edit</a> /
+                                <a href="#" class="delete-link" data-index="${index}">Delete</a>
+                            </td>
+                            <td>
+                                <button class="btn btn-success">APPROVE</button>
+                                <button class="btn btn-danger">REJECT</button>
+                            </td>
+                        `;
+
+                claimsTableBody.appendChild(newRow);
+
+                // Add event listeners for Edit and Delete buttons
+                newRow.querySelector('.edit-link').addEventListener('click', function (event) {
+                    event.preventDefault();
+                    editRow(index);
+                });
+
+                newRow.querySelector('.delete-link').addEventListener('click', function (event) {
+                    event.preventDefault();
+                    deleteRow(index);
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadClaims(); // Load and display claims when the page loads
+        });
+
+        function editRow(index) {
+            // Retrieve existing claims from localStorage
+            let claims = JSON.parse(localStorage.getItem('claims')) || [];
+
+            // Get the claim data for the selected index
+            const claim = claims[index];
+
+            // Populate the form fields with the claim data
+            document.getElementById('hours').value = claim.hours;
+            document.getElementById('programme').value = claim.programme;
+            document.getElementById('moduleCode').value = claim.moduleCode;
+            document.getElementById('groups').value = claim.groups;
+            document.getElementById('hourlyRate').value = claim.hourlyRate;
+            document.getElementById('totalAmount').value = claim.totalAmount;
+
+            // Remove the claim from localStorage
+            claims.splice(index, 1);
+            localStorage.setItem('claims', JSON.stringify(claims));
+
+            // Reload the claims table to reflect changes
+            loadClaims();
+
+            // Redirect to the form page with the data to edit (optional)
+            // window.location.href = 'claims_form.html';
+            function editRow(row, claim) {
+                // Store the claim data in localStorage
+                localStorage.setItem('editClaim', JSON.stringify(claim));
+
+                // Redirect to the Claim Form page
+                window.location.href = 'claims_form.html';
+            }
+        }
+
+        function deleteRow(index) {
+            // Retrieve existing claims from localStorage
+            let claims = JSON.parse(localStorage.getItem('claims')) || [];
+
+            // Remove the claim from the array
+            claims.splice(index, 1);
+
+            // Save the updated claims array back to localStorage
+            localStorage.setItem('claims', JSON.stringify(claims));
+
+            // Reload the claims table to reflect changes
+            loadClaims();
+        }
+    </script>
+
+</body>
+</html>

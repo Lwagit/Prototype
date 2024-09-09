@@ -1,0 +1,119 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claims Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #004d00; /* Dark green background color */
+            color: white; /* Text color changed to white for better contrast */
+            padding-bottom: 50px; /* Adds padding at the bottom to avoid footer overlap */
+        }
+
+        .container {
+            max-width: 600px; /* Restrict form width to make it more readable */
+            margin-top: 20px; /* Add some space at the top */
+        }
+
+        .form-group {
+            margin-bottom: 20px; /* Add space between form fields */
+        }
+
+        .form-control {
+            background-color: #e6e6e6; /* Light background color for form controls */
+            color: #000; /* Black text color for form controls */
+        }
+
+        .btn-primary {
+            background-color: #007700; /* Darker green for submit button */
+            border-color: #007700;
+        }
+
+            .btn-primary:hover {
+                background-color: #005500; /* Even darker green on hover */
+                border-color: #005500;
+            }
+
+        #successMessage {
+            margin-top: 20px; /* Add space above the success message */
+        }
+
+        footer {
+            position: center;
+            height: 0%;
+            bottom: 0;
+            width: 100%;
+            background-color: #004d00;
+            text-align: center;
+            padding: 10px;
+            border-top: 1px solid #e9ecef;
+            color: #004d00; /* Dark green text color in the footer */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="text-center font-weight-bold">LOG-IN</h1> <!-- Added LOG-IN heading -->
+        <form id="claimsForm">
+            <div class="form-group">
+                <label for="lectureName">Lecture Name:</label>
+                <input type="text" class="form-control" id="lectureName" required />
+            </div>
+            <div class="form-group">
+                <label for="lectureSurname">Lecture Surname:</label>
+                <input type="text" class="form-control" id="lectureSurname" required />
+            </div>
+            <div class="form-group">
+                <label for="employeeNo">Employee No:</label>
+                <input type="text" class="form-control" id="employeeNo" required />
+            </div>
+            <div class="form-group">
+                <label for="contactDetails">Contact Details:</label>
+                <input type="text" class="form-control" id="contactDetails" required />
+            </div>
+            <div class="form-group">
+                <label for="claimPeriod">Claim Period:</label>
+                <select class="form-control" id="claimPeriod" required>
+                    <option value="">Select Period</option>
+                    <option value="1 Year">1 Year</option>
+                    <option value="2 Years">2 Years</option>
+                    <option value="3 Years">3 Years</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea class="form-control" id="description" required></textarea>
+            </div>
+            <button class="btn btn-primary btn-block" type="submit">Submit</button>
+        </form>
+
+        <div id="successMessage" class="alert alert-success mt-3" style="display: none;">
+            Successfully submitted!
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('claimsForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Display the success message
+            document.getElementById('successMessage').style.display = 'block';
+
+            // Clear the form after submission
+            document.getElementById('claimsForm').reset();
+        });
+    </script>
+
+</body>
+</html>
+
+
+
+
