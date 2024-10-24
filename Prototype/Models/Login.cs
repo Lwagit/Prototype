@@ -2,6 +2,7 @@
 
 namespace Prototype.Models
 {
+    //login.cs added
     public class Login
     {
         //GETTER AND SETTER PROPERTIES
