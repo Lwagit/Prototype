@@ -52,8 +52,8 @@
         loadClaims(); // Load and display claims when the page loads
     });
 
+    
     function loadClaims() {
-        // Retrieve claims from localStorage (or initialize as an empty array)
         let claims = JSON.parse(localStorage.getItem('claims')) || [];
         let claimsTableBody = document.getElementById('claimsTableBody');
 
@@ -64,21 +64,21 @@
         claims.forEach((claim, index) => {
             let newRow = document.createElement('tr');
             newRow.innerHTML = `
-                            <td>${claim.hours}</td>
-                            <td>${claim.programme}</td>
-                            <td>${claim.moduleCode}</td>
-                            <td>${claim.groups}</td>
-                            <td>${claim.hourlyRate}</td>
-                            <td>${claim.totalAmount}</td>
-                                <td>${claim.FileUploaded}</td>
-                            <td>
-                                <a href="#" class="edit-link" data-index="${index}">Edit</a>
-                                <a href="#" class="delete-link" data-index="${index}">Delete</a>
-                            </td>
-                            <td>${claim.status || 'Pending'}</td> <!-- Display status or default to "Pending" -->
-                        `;
+                <td>${claim.hours}</td>
+                <td>${claim.programme}</td>
+                <td>${claim.moduleCode}</td>
+                <td>${claim.groups}</td>
+                <td>${claim.hourlyRate}</td>
+                <td>${claim.totalAmount}</td>
+                <td>${claim.fileUploaded}</td> <!-- Add a fallback for undefined -->
+                <td>
+                    <a href="#" class="edit-link" data-index="${index}">Edit</a>
+                    <a href="#" class="delete-link" data-index="${index}">Delete</a>
+                </td>
+                <td>${claim.status || 'Pending'}</td>
+            `;
 
-            // Add event listeners for Edit and Delete buttons  //pending button added too
+            // Event listeners for Edit and Delete buttons
             newRow.querySelector('.edit-link').addEventListener('click', function (event) {
                 event.preventDefault();
                 editRow(index);
@@ -93,6 +93,7 @@
             claimsTableBody.appendChild(newRow);
         });
     }
+
 
     //edit button function
     function editRow(index) {
