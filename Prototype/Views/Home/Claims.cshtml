@@ -1,8 +1,6 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@{
-}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,10 +13,7 @@
         body {
             background-color: #004d00; /* Dark green background color */
             color: white; /* Text color changed to white for better contrast */
-
-            height: 0%;
-            bottom: 0;
-            width: 100%;
+            height: 100%; /* Ensure body height is full */
             padding-bottom: 50px; /* Adds padding at the bottom to avoid footer overlap */
         }
 
@@ -47,12 +42,9 @@
             }
 
         footer {
-            position: center;
-            height: 0%;
-            bottom: 0;
+            text-align: center;
             width: 100%;
             background-color: #004d00;
-            text-align: center;
             padding: 10px;
             border-top: 1px solid #e9ecef;
             color: #004d00; /* Dark green text color in the footer */
@@ -87,21 +79,15 @@
             <label for="totalAmount">TOTAL AMOUNT:</label>
             <input type="number" class="form-control" id="totalAmount" required>
         </div>
-
         <div class="form-group">
-        <label for="claimFile">Upload File:</label>
-        <input type="file" id="claimFile"  class="form-control">
+            <label for="claimFile">Upload File:</label>
+            <input type="file" id="claimFile" class="form-control">
         </div>
 
         <button type="submit" class="btn btn-primary">Add another Module?</button><br /><br />
         <button type="submit" class="btn btn-primary">Submit Claim</button>
-
-
     </form>
     <br />
-     
-
-
 
     <footer>
         <p>Footer Content</p>
@@ -121,25 +107,41 @@
                 totalAmount: document.getElementById('totalAmount').value
             };
 
+            // Validate numeric values
+            if (!claim.hours || !claim.hourlyRate || !claim.totalAmount) {
+                alert("Please enter valid numeric values for hours, hourly rate, and total amount.");
+                return; // Exit if validation fails
+            }
+
             // Retrieve existing claims from localStorage
-            let claims = JSON.parse(localStorage.getItem('claims')) || [];
+            let claims;
+            try {
+                claims = JSON.parse(localStorage.getItem('claims')) || []; // Default to empty array if no claims exist
+            } catch (error) {
+                alert("Error retrieving claims from local storage: " + error.message);
+                return; // Exit if there's an error loading
+            }
 
             // Add new claim to the array
             claims.push(claim);
 
             // Save updated claims array back to localStorage
-            localStorage.setItem('claims', JSON.stringify(claims));
+            try {
+                localStorage.setItem('claims', JSON.stringify(claims));
+            } catch (error) {
+                alert("Error saving claims to local storage: " + error.message);
+                return; // Exit if there's an error saving
+            }
 
             // Clear the form after submission
             document.getElementById('claimsForm').reset();
-
-            // Optionally, redirect to the Claim Status page
-            // window.location.href = 'claim_status.html';
+            alert("Claim submitted successfully!"); // Confirmation alert
         });
     </script>
 
 </body>
 </html>
+
 
 
 
