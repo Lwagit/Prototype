@@ -1,5 +1,6 @@
 ﻿namespace Prototype.Models
 {
+    //added ClaimReviewModel
     public class ClaimReviewModel
     {
         //public int Id { get; set; } // Add this property
