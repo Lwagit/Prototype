@@ -109,7 +109,7 @@
         </table>
     </div>
 
-    
+
     <footer>
         <p>Footer Content</p>
     </footer>
@@ -129,6 +129,17 @@
                 const groups = document.getElementById('groups').value;
                 const hourlyRate = document.getElementById('hourlyRate').value;
 
+                // Validate inputs
+                if (!hours || !programme || !moduleCode || !groups || !hourlyRate) {
+                    alert("Please fill in all fields.");
+                    return; // Exit the function if validation fails
+                }
+
+                if (isNaN(hours) || isNaN(hourlyRate) || hours <= 0 || hourlyRate <= 0) {
+                    alert("Please enter valid positive numbers for hours and hourly rate.");
+                    return; // Exit the function if validation fails
+                }
+
                 // Capture the uploaded file
                 const fileInput = document.getElementById('claimFile');
                 let fileName = 'No file uploaded'; // Default value
@@ -139,12 +150,12 @@
 
                 // Create a new claim object
                 const newClaim = {
-                    hours: hours,
+                    hours: parseFloat(hours), // Convert hours to float
                     programme: programme,
                     moduleCode: moduleCode,
                     groups: groups,
-                    hourlyRate: hourlyRate,
-                    totalAmount: hours * hourlyRate,
+                    hourlyRate: parseFloat(hourlyRate), // Convert hourly rate to float
+                    totalAmount: parseFloat(hours) * parseFloat(hourlyRate), // Calculate total amount
                     fileName: fileName, // Save file name
                     status: "Pending" // Default status is "Pending"
                 };
@@ -154,7 +165,12 @@
                 claims.push(newClaim); // Add new claim to the array
 
                 // Save the updated claims back to localStorage
-                localStorage.setItem('claims', JSON.stringify(claims));
+                try {
+                    localStorage.setItem('claims', JSON.stringify(claims));
+                } catch (error) {
+                    alert("Error saving claims to local storage: " + error.message);
+                    return; // Exit if there's an error saving
+                }
 
                 // Reset the form
                 document.getElementById('claimForm').reset();
@@ -166,7 +182,13 @@
 
         // Function to load and display claims
         function loadClaims() {
-            let claims = JSON.parse(localStorage.getItem('claims')) || [];
+            let claims;
+            try {
+                claims = JSON.parse(localStorage.getItem('claims')) || [];
+            } catch (error) {
+                alert("Error loading claims from local storage: " + error.message);
+                return; // Exit if there's an error loading
+            }
             let claimsTableBody = document.getElementById('claimsTableBody');
 
             // Clear existing table rows
@@ -176,43 +198,60 @@
             claims.forEach((claim, index) => {
                 let newRow = document.createElement('tr');
                 newRow.innerHTML = `
-                                    <td>${claim.hours}</td>
-                                    <td>${claim.programme}</td>
-                                    <td>${claim.moduleCode}</td>
-                                    <td>${claim.groups}</td>
-                                    <td>${claim.hourlyRate}</td>
-                                    <td>${claim.totalAmount}</td>
-                                    <td>${claim.fileName}</td>
-                                    <td>
-                                        <button class="btn btn-success" onclick="approveClaim(${index})">APPROVE</button>
-                                        <button class="btn btn-danger" onclick="rejectClaim(${index})">REJECT</button>
-                                    </td>
-                                `;
+                                            <td>${claim.hours}</td>
+                                            <td>${claim.programme}</td>
+                                            <td>${claim.moduleCode}</td>
+                                            <td>${claim.groups}</td>
+                                            <td>${claim.hourlyRate}</td>
+                                            <td>${claim.totalAmount}</td>
+                                            <td>${claim.fileName}</td>
+                                            <td>
+                                                <button class="btn btn-success" onclick="approveClaim(${index})">APPROVE</button>
+                                                <button class="btn btn-danger" onclick="rejectClaim(${index})">REJECT</button>
+                                            </td>
+                                        `;
 
                 // Append the new row to the table body
                 claimsTableBody.appendChild(newRow);
             });
         }
 
-        //approve button added
+        // Approve button added
         function approveClaim(index) {
             // Retrieve existing claims from localStorage
-            let claims = JSON.parse(localStorage.getItem('claims')) || [];
+            let claims;
+            try {
+                claims = JSON.parse(localStorage.getItem('claims')) || [];
+            } catch (error) {
+                alert("Error loading claims from local storage: " + error.message);
+                return; // Exit if there's an error loading
+            }
 
             // Update the status of the claim to "Approved"
             claims[index].status = 'Approved';
 
             // Save the updated claims back to localStorage
-            localStorage.setItem('claims', JSON.stringify(claims));
+            try {
+                localStorage.setItem('claims', JSON.stringify(claims));
+            } catch (error) {
+                alert("Error saving claims to local storage: " + error.message);
+                return; // Exit if there's an error saving
+            }
 
             // Reload the claims table to reflect changes
             loadClaims();
         }
 
-        //reject button added
+        // Reject button added
         function rejectClaim(index) {
             // Retrieve existing claims from localStorage
-            let claims = JSON.parse(localStorage.getItem('claims')) || [];
+            let claims;
+            try {
+                claims = JSON.parse(localStorage.getItem('claims')) || [];
+            } catch (error) {
+                alert("Error loading claims from local storage: " + error.message);
+                return; // Exit if there's an error loading
+            }
 
             // Prompt for the reason for rejection
             const reason = prompt("Please provide a reason for rejecting this claim:");
@@ -221,7 +260,12 @@
                 claims[index].status = 'Rejected';
 
                 // Save the updated claims back to localStorage
-                localStorage.setItem('claims', JSON.stringify(claims));
+                try {
+                    localStorage.setItem('claims', JSON.stringify(claims));
+                } catch (error) {
+                    alert("Error saving claims to local storage: " + error.message);
+                    return; // Exit if there's an error saving
+                }
 
                 // Reload the claims table to reflect change
                 loadClaims();
@@ -230,11 +274,4 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
 
