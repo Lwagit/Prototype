@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Claim Result Page";
+}
+<style>
+    body {
+        background-color: #004d00; /* Dark green background color */
+        color: white; /* Text color changed to white for better contrast */
+    }
+
+    .form-control, .btn {
+        background-color: #e6e6e6; /* Light background color for form controls */
+        color: #000; /* Black text color for form controls */
+    }
+
+    .btn-primary {
+        background-color: #007700; /* Darker green for submit button */
+        border-color: #007700;
+    }
+
+        .btn-primary:hover {
+            background-color: #005500; /* Even darker green on hover */
+            border-color: #005500;
+        }
+
+    footer {
+        position: center;
+        height: 0%;
+        bottom: 0;
+        width: 100%;
+        background-color: #004d00;
+        text-align: center;
+        padding: 10px;
+        border-top: 1px solid #e9ecef;
+        color: #004d00; /* Dark green text color in the footer */
+    }
+</style>
+<h1>@ViewData["Title"]</h1>
+
+
+<div id="resultMessage" class="alert" role="alert"></div>
+
+<button onclick="window.location.href='/Home/Claims'" class="btn btn-primary">Back to Claims</button>
+
+<script>
+    // Get the result from localStorage
+    const result = JSON.parse(localStorage.getItem('result')) || {};
+
+    // Check if the claim was approved or rejected
+    const resultMessage = document.getElementById('resultMessage');
+    if (result.status === 'approved') {
+        resultMessage.classList.add('alert-success');
+        resultMessage.textContent = 'Claim approved successfully!';
+    } else if (result.status === 'rejected') {
+        resultMessage.classList.add('alert-danger');
+        resultMessage.textContent = `Claim rejected: ${result.reason}`;
+    } else {
+        resultMessage.textContent = 'No result available.';
+    }
+
+    // Clear the result from localStorage after displaying
+    localStorage.removeItem('result');
+</script>

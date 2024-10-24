@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Claim Status";
+    ViewData["Title"] = "PC & MANAGER Authorization";
 }
 <h1>@ViewData["Title"]</h1>
 
@@ -99,7 +99,7 @@
                     <th>Groups:</th>
                     <th>Hourly Rate:</th>
                     <th>TOTAL AMOUNT:</th>
-                    <th>Action:</th>
+                    <th>File Uploaded:</th>
                     <th>Claim Status:</th>
                 </tr>
             </thead>
@@ -114,97 +114,124 @@
     </footer>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            loadClaims(); // Load and display claims when the page loads
+
+            // Handle claim form submission
+            document.getElementById('claimForm').addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent default form submission
+
+                // Get form inputs
+                const hours = document.getElementById('hours').value;
+                const programme = document.getElementById('programme').value;
+                const moduleCode = document.getElementById('moduleCode').value;
+                const groups = document.getElementById('groups').value;
+                const hourlyRate = document.getElementById('hourlyRate').value;
+
+                // Capture the uploaded file
+                const fileInput = document.getElementById('claimFile');
+                let fileName = 'No file uploaded'; // Default value
+
+                if (fileInput.files && fileInput.files.length > 0) {
+                    fileName = fileInput.files[0].name; // Get the actual file name
+                }
+
+                // Create a new claim object
+                const newClaim = {
+                    hours: hours,
+                    programme: programme,
+                    moduleCode: moduleCode,
+                    groups: groups,
+                    hourlyRate: hourlyRate,
+                    totalAmount: hours * hourlyRate,
+                    fileName: fileName, // Save file name
+                    status: "Pending" // Default status is "Pending"
+                };
+
+                // Retrieve existing claims from localStorage
+                let claims = JSON.parse(localStorage.getItem('claims')) || [];
+                claims.push(newClaim); // Add new claim to the array
+
+                // Save the updated claims back to localStorage
+                localStorage.setItem('claims', JSON.stringify(claims));
+
+                // Reset the form
+                document.getElementById('claimForm').reset();
+
+                // Reload the claims table to reflect changes
+                loadClaims();
+            });
+        });
+
+        // Function to load and display claims
         function loadClaims() {
-            const claimsTableBody = document.getElementById('claimsTableBody');
-            claimsTableBody.innerHTML = ''; // Clear the table body before populating it
-
             let claims = JSON.parse(localStorage.getItem('claims')) || [];
+            let claimsTableBody = document.getElementById('claimsTableBody');
 
+            // Clear existing table rows
+            claimsTableBody.innerHTML = '';
+
+            // Populate the table with claims
             claims.forEach((claim, index) => {
-                const newRow = document.createElement('tr');
+                let newRow = document.createElement('tr');
                 newRow.innerHTML = `
-                            <td>${claim.hours}</td>
-                            <td>${claim.programme}</td>
-                            <td>${claim.moduleCode}</td>
-                            <td>${claim.groups}</td>
-                            <td>${claim.hourlyRate}</td>
-                            <td>${claim.totalAmount}</td>
-                            <td>
-                                <a href="#" class="edit-link" data-index="${index}">Edit</a> /
-                                <a href="#" class="delete-link" data-index="${index}">Delete</a>
-                            </td>
-                            <td>
-                                <button class="btn btn-success">APPROVE</button>
-                                <button class="btn btn-danger">REJECT</button>
-                            </td>
-                        `;
+                                    <td>${claim.hours}</td>
+                                    <td>${claim.programme}</td>
+                                    <td>${claim.moduleCode}</td>
+                                    <td>${claim.groups}</td>
+                                    <td>${claim.hourlyRate}</td>
+                                    <td>${claim.totalAmount}</td>
+                                    <td>${claim.fileName}</td>
+                                    <td>
+                                        <button class="btn btn-success" onclick="approveClaim(${index})">APPROVE</button>
+                                        <button class="btn btn-danger" onclick="rejectClaim(${index})">REJECT</button>
+                                    </td>
+                                `;
 
+                // Append the new row to the table body
                 claimsTableBody.appendChild(newRow);
-
-                // Add event listeners for Edit and Delete buttons
-                newRow.querySelector('.edit-link').addEventListener('click', function (event) {
-                    event.preventDefault();
-                    editRow(index);
-                });
-
-                newRow.querySelector('.delete-link').addEventListener('click', function (event) {
-                    event.preventDefault();
-                    deleteRow(index);
-                });
             });
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            loadClaims(); // Load and display claims when the page loads
-        });
-
-        function editRow(index) {
+        function approveClaim(index) {
             // Retrieve existing claims from localStorage
             let claims = JSON.parse(localStorage.getItem('claims')) || [];
 
-            // Get the claim data for the selected index
-            const claim = claims[index];
+            // Update the status of the claim to "Approved"
+            claims[index].status = 'Approved';
 
-            // Populate the form fields with the claim data
-            document.getElementById('hours').value = claim.hours;
-            document.getElementById('programme').value = claim.programme;
-            document.getElementById('moduleCode').value = claim.moduleCode;
-            document.getElementById('groups').value = claim.groups;
-            document.getElementById('hourlyRate').value = claim.hourlyRate;
-            document.getElementById('totalAmount').value = claim.totalAmount;
-
-            // Remove the claim from localStorage
-            claims.splice(index, 1);
+            // Save the updated claims back to localStorage
             localStorage.setItem('claims', JSON.stringify(claims));
 
             // Reload the claims table to reflect changes
             loadClaims();
+        }
 
-            // Redirect to the form page with the data to edit (optional)
-            // window.location.href = 'claims_form.html';
-            function editRow(row, claim) {
-                // Store the claim data in localStorage
-                localStorage.setItem('editClaim', JSON.stringify(claim));
+        function rejectClaim(index) {
+            // Retrieve existing claims from localStorage
+            let claims = JSON.parse(localStorage.getItem('claims')) || [];
 
-                // Redirect to the Claim Form page
-                window.location.href = 'claims_form.html';
+            // Prompt for the reason for rejection
+            const reason = prompt("Please provide a reason for rejecting this claim:");
+            if (reason) {
+                // Update the status of the claim to "Rejected"
+                claims[index].status = 'Rejected';
+
+                // Save the updated claims back to localStorage
+                localStorage.setItem('claims', JSON.stringify(claims));
+
+                // Reload the claims table to reflect changes
+                loadClaims();
             }
         }
-
-        function deleteRow(index) {
-            // Retrieve existing claims from localStorage
-            let claims = JSON.parse(localStorage.getItem('claims')) || [];
-
-            // Remove the claim from the array
-            claims.splice(index, 1);
-
-            // Save the updated claims array back to localStorage
-            localStorage.setItem('claims', JSON.stringify(claims));
-
-            // Reload the claims table to reflect changes
-            loadClaims();
-        }
     </script>
-
 </body>
 </html>
+
+
+
+
+
+
+
+

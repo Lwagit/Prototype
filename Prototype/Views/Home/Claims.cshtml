@@ -15,6 +15,20 @@
         body {
             background-color: #004d00; /* Dark green background color */
             color: white; /* Text color changed to white for better contrast */
+
+            height: 0%;
+            bottom: 0;
+            width: 100%;
+            padding-bottom: 50px; /* Adds padding at the bottom to avoid footer overlap */
+        }
+
+        .container {
+            max-width: 600px; /* Restrict form width to make it more readable */
+            margin-top: 20px; /* Add some space at the top */
+        }
+
+        .form-group {
+            margin-bottom: 20px; /* Add space between form fields */
         }
 
         .form-control, .btn {
@@ -47,7 +61,7 @@
 </head>
 <body>
 
-    <h2 class="align-content-center">Claim Form</h2>
+    <h2 class="align-content-center">Lecture's Claim Form</h2>
     <form id="claimsForm">
         <div class="form-group">
             <label for="hours">Number of hours:</label>
@@ -73,10 +87,21 @@
             <label for="totalAmount">TOTAL AMOUNT:</label>
             <input type="number" class="form-control" id="totalAmount" required>
         </div>
+
+        <div class="form-group">
+        <label for="claimFile">Upload File:</label>
+        <input type="file" id="claimFile"  class="form-control">
+        </div>
+
         <button type="submit" class="btn btn-primary">Add another Module?</button><br /><br />
         <button type="submit" class="btn btn-primary">Submit Claim</button>
+
+
     </form>
     <br />
+     
+
+
 
     <footer>
         <p>Footer Content</p>
