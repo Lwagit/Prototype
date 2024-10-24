@@ -78,7 +78,7 @@
                             <td>${claim.status || 'Pending'}</td> <!-- Display status or default to "Pending" -->
                         `;
 
-            // Add event listeners for Edit and Delete buttons
+            // Add event listeners for Edit and Delete buttons  //pending button added too
             newRow.querySelector('.edit-link').addEventListener('click', function (event) {
                 event.preventDefault();
                 editRow(index);
