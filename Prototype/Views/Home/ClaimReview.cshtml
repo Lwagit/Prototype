@@ -94,7 +94,7 @@
         });
     }
 
-
+    //edit button function
     function editRow(index) {
         // Retrieve existing claims from localStorage
         let claims = JSON.parse(localStorage.getItem('claims')) || [];
@@ -113,7 +113,7 @@
         window.location.href = '/Home/Claims'; // Adjust this URL to match your Claims.cshtml route
     }
 
-    //delete function
+    //delete button function
     function deleteRow(index) {
         // Retrieve existing claims from localStorage
         let claims = JSON.parse(localStorage.getItem('claims')) || [];
