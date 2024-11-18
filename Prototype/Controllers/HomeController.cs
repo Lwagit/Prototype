@@ -42,103 +42,26 @@ namespace Prototype.Controllers
         {
             return View();
         }
-        /*
-
-        // Handle form submission (POST)
-        [HttpPost]
-        public async Task<IActionResult> SubmitClaim(string lectureName, string lectureSurname, string employeeNo, string contactDetails, string claimPeriod, string description, IFormFile supportingDocument)
-        {
-            if (ModelState.IsValid)
-            {
-                string filePath = null;
-
-                try
-                {
-                    // Step 1: Save the uploaded document if it exists
-                    if (supportingDocument != null && supportingDocument.Length > 0)
-                    {
-                        try
-                        {
-                            string uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-                            if (!Directory.Exists(uploadDir))
-                            {
-                                Directory.CreateDirectory(uploadDir);
-                            }
-
-                            filePath = Path.Combine(uploadDir, Path.GetFileName(supportingDocument.FileName));
-                            using (var stream = new FileStream(filePath, FileMode.Create))
-                            {
-                                await supportingDocument.CopyToAsync(stream);
-                            }
-                        }
-                        catch (IOException ioEx)
-                        {
-                            _logger.LogError($"File save error: {ioEx.Message}");
-                            ViewBag.ErrorMessage = "Error saving the supporting document. Please try again.";
-                            return View(); // Return to the form view with error message
-                        }
-                    }
-
-                    // Step 2: Insert data into SQL
-                    using (SqlConnection connection = new SqlConnection(connectionString))
-                    {
-                        await connection.OpenAsync(); // Open connection asynchronously
-                        _logger.LogInformation($"Inserting Claim: {lectureName}, {lectureSurname}, {employeeNo}, {contactDetails}, {claimPeriod}, {description}, {filePath}");
-
-                        string query = "INSERT INTO Claims (LectureName, LectureSurname, EmployeeNo, ContactDetails, ClaimPeriod, Description, SupportingDocumentPath) " +
-                                       "VALUES (@LectureName, @LectureSurname, @EmployeeNo, @ContactDetails, @ClaimPeriod, @Description, @SupportingDocumentPath)";
-
-                        using (SqlCommand command = new SqlCommand(query, connection))
-                        {
-                            // Add parameters to the query
-                            command.Parameters.Add("@LectureName", SqlDbType.NVarChar).Value = lectureName;
-                            command.Parameters.Add("@LectureSurname", SqlDbType.NVarChar).Value = lectureSurname;
-                            command.Parameters.Add("@EmployeeNo", SqlDbType.NVarChar).Value = employeeNo;
-                            command.Parameters.Add("@ContactDetails", SqlDbType.NVarChar).Value = contactDetails;
-                            command.Parameters.Add("@ClaimPeriod", SqlDbType.NVarChar).Value = claimPeriod;
-                            command.Parameters.Add("@Description", SqlDbType.NVarChar).Value = description;
-                            command.Parameters.Add("@SupportingDocumentPath", SqlDbType.NVarChar).Value = filePath ?? "no file";
-
-                            int result = await command.ExecuteNonQueryAsync();  // Execute the insert query asynchronously
-
-                            if (result > 0)
-                            {
-                                _logger.LogInformation("Data inserted successfully.");
-                                ViewBag.Message = "Claim submitted successfully!";
-                                return RedirectToAction("Claims"); // Redirect to Claims view
-                            }
-                            else
-                            {
-                                _logger.LogWarning("No rows inserted.");
-                                ViewBag.Message = "There was a problem submitting the claim.";
-                            }
-                        }
-                    }
-                }
-                catch (SqlException sqlEx)
-                {
-                    _logger.LogError($"SQL Error: {sqlEx.Message}");
-                    ViewBag.ErrorMessage = "There was a problem connecting to the database.";
-                    return StatusCode(500, "Internal server error while processing claim.");
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError($"Error: {ex.Message}");
-                    ViewBag.ErrorMessage = "An unexpected error occurred.";
-                    return StatusCode(500, "Internal server error.");
-                }
-            }
-            else
-            {
-                ViewBag.ErrorMessage = "Invalid data submitted. Please check the form and try again.";
-            }
-
-            return View(); // Return to the form in case of error
-        }/
-
-        */
+        
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult UpdateInfo()
+        {
+            // Logic to update lecturer information
+            return View();
+        }
+
+        public IActionResult GenerateReports()
+        {
+            // Pass data to the view if needed, or just return it.
+            return View();
+        }
+
+        public IActionResult HrView()
         {
             return View();
         }
