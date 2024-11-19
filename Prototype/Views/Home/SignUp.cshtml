@@ -1,5 +1,11 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@{
+    ViewData["Title"] = "Register Page";
 }
 
 <!DOCTYPE html>
@@ -7,12 +13,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Claims Form</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Register Page</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #004d00; /* Dark green background color */
             color: white; /* Text color changed to white for better contrast */
+            height: 100%; /* Ensure body height is full */
             padding-bottom: 50px; /* Adds padding at the bottom to avoid footer overlap */
         }
 
@@ -25,7 +32,7 @@
             margin-bottom: 20px; /* Add space between form fields */
         }
 
-        .form-control {
+        .form-control, .btn {
             background-color: #e6e6e6; /* Light background color for form controls */
             color: #000; /* Black text color for form controls */
         }
@@ -40,54 +47,50 @@
                 border-color: #005500;
             }
 
-        #successMessage {
-            margin-top: 20px; /* Add space above the success message */
-        }
-
         footer {
-            position: center;
-            height: 0%;
-            bottom: 0;
+            text-align: center;
             width: 100%;
             background-color: #004d00;
-            text-align: center;
             padding: 10px;
             border-top: 1px solid #e9ecef;
             color: #004d00; /* Dark green text color in the footer */
         }
+
+        #successMessage {
+            margin-top: 20px; /* Space above the success message */
+        }
     </style>
 </head>
 <body>
-
     <div class="container">
-        <h1 class="text-center font-weight-bold">LOG-IN</h1> <!-- Added LOG-IN title -->
-        <form id="claimsForm">
+        <h1 class="text-center font-weight-bold">Register With Us!</h1>
+        <form id="Register">
             <div class="form-group">
-                <label for="lectureName">Lecture Name:</label>
+                <label for="lectureName">Name:</label>
                 <input type="text" class="form-control" id="lectureName" required />
             </div>
             <div class="form-group">
-                <label for="lectureSurname">Lecture Surname:</label>
+                <label for="lectureSurname">Surname:</label>
                 <input type="text" class="form-control" id="lectureSurname" required />
             </div>
             <div class="form-group">
-                <label for="employeeNo">Employee No:</label>
+                <label for="employeeNo">E-mail:</label>
                 <input type="text" class="form-control" id="employeeNo" required />
             </div>
             <button class="btn btn-primary btn-block" type="submit">Submit</button>
         </form>
 
-        <!-- Success Message Div with populated values -->
+        <!-- Success Message Div -->
         <div id="successMessage" class="alert alert-success mt-3" style="display: none;">
             Successfully submitted!<br>
-            <strong>Lecture Name:</strong> <span id="lectureNameDisplay"></span><br>
-            <strong>Lecture Surname:</strong> <span id="lectureSurnameDisplay"></span><br>
-            <strong>Employee No:</strong> <span id="employeeNoDisplay"></span>
+            <strong>Name:</strong> <span id="lectureNameDisplay"></span><br>
+            <strong>Surname:</strong> <span id="lectureSurnameDisplay"></span><br>
+            <strong>E-mail:</strong> <span id="employeeNoDisplay"></span>
         </div>
     </div>
 
     <script>
-        document.getElementById('claimsForm').addEventListener('submit', function (event) {
+        document.getElementById('Register').addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent the default form submission
 
             // Capture form values
@@ -104,14 +107,9 @@
             document.getElementById('employeeNoDisplay').innerText = employeeNo;
 
             // Clear the form after submission
-            document.getElementById('claimsForm').reset();
+            document.getElementById('Register').reset();
         });
     </script>
-
+    <br/>
 </body>
 </html>
-
-
-
-
-

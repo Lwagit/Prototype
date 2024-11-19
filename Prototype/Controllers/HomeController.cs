@@ -55,6 +55,8 @@ namespace Prototype.Controllers
             return View();
         }
 
+       
+
         public IActionResult GenerateReports()
         {
             // Pass data to the view if needed, or just return it.
@@ -62,6 +64,13 @@ namespace Prototype.Controllers
         }
 
         public IActionResult HrView()
+        {
+            return View();
+        }
+
+       
+
+        public IActionResult SignUp()
         {
             return View();
         }
