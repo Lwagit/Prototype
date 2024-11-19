@@ -59,7 +59,7 @@ namespace Prototype.Controllers
 
         public IActionResult GenerateReports()
         {
-            // Pass data to the view if needed, or just return it.
+            // Pass data to the view if needed, or just return data.
             return View();
         }
 
