@@ -12,11 +12,7 @@ namespace Prototype.Models
 
         public int? EmployeeNo { get; set; }
 
-        public int? Contact { get; set; }
-
-        public int? Password { get; set; }
-
-        public string? Description { get; set; }
+        
 
 
 

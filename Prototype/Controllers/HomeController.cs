@@ -9,6 +9,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace Prototype.Controllers
 {
@@ -68,11 +70,24 @@ namespace Prototype.Controllers
             return View();
         }
 
-       
-
         public IActionResult SignUp()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult SignUp(Register register)
+        {
+
+            if (ModelState.IsValid)
+            {
+                string name = register.Name;
+                string email = register.Email;
+                string surname = register.Surname;
+                Console.WriteLine($" Name: {name} + Email: {email} Surname: {surname}");
+            }
+
+            return RedirectToAction("Home", "Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

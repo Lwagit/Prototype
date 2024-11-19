@@ -3,7 +3,7 @@
 *@
 @{
 }
-
+@model Register
 @{
     ViewData["Title"] = "Register Page";
 }
@@ -67,15 +67,15 @@
         <form id="Register">
             <div class="form-group">
                 <label for="lectureName">Name:</label>
-                <input type="text" class="form-control" id="lectureName" required />
+                <input type="text" class="form-control" id="lectureName"  asp-for="Name" required />
             </div>
             <div class="form-group">
                 <label for="lectureSurname">Surname:</label>
-                <input type="text" class="form-control" id="lectureSurname" required />
+                <input type="text" class="form-control" id="lectureSurname" asp-for="Surname" required />
             </div>
             <div class="form-group">
                 <label for="employeeNo">E-mail:</label>
-                <input type="text" class="form-control" id="employeeNo" required />
+                <input type="text" class="form-control" id="employeeNo" required asp-for="Email" />
             </div>
             <button class="btn btn-primary btn-block" type="submit">Submit</button>
         </form>
@@ -89,27 +89,6 @@
         </div>
     </div>
 
-    <script>
-        document.getElementById('Register').addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevent the default form submissions
-
-            // Capture form values
-            var lectureName = document.getElementById('lectureName').value;
-            var lectureSurname = document.getElementById('lectureSurname').value;
-            var employeeNo = document.getElementById('employeeNo').value;
-
-            // Display the success message
-            document.getElementById('successMessage').style.display = 'block';
-
-            // Populate the success message with the form values
-            document.getElementById('lectureNameDisplay').innerText = lectureName;
-            document.getElementById('lectureSurnameDisplay').innerText = lectureSurname;
-            document.getElementById('employeeNoDisplay').innerText = employeeNo;
-
-            // Clear the form after submission
-            document.getElementById('Register').reset();
-        });
-    </script>
     <br/>
 </body>
 </html>
