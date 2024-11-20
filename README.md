@@ -23,7 +23,7 @@ The Contract Monthly Claim System (CMCS) is a .NET web-based application designe
 ### Installation
 
 1. **Clone the Repository**:
-   ```bash
+   ```https://github.com/Lwagit/Prototype.git
    
    ```
 
@@ -37,7 +37,7 @@ The Contract Monthly Claim System (CMCS) is a .NET web-based application designe
    dotnet run
    ```
 
-   Navigate to `http://localhost:5252` in your browser to access the application.
+   Navigate to `http://localhost:7225` in your browser to access the application.
 
 ## Usage
 
